@@ -28,24 +28,10 @@ func GetVideos(c echo.Context) error {
 	})
 }
 
-func GetVideo(c echo.Context) error {
-	videoName := c.Param("name")
-	videos, err := ioutil.ReadDir(filePath)
-	if err != nil {
-		return err
-	}
-	for _, v := range videos {
-		if v.Name() == videoName {
-			return c.File(path.Join(filePath, v.Name()))
-		}
-	}
-	return c.NoContent(http.StatusNotFound)
-}
-
 func main() {
 	e := echo.New()
 	e.Use(middleware.Logger(), middleware.Recover(), middleware.CORS(), middleware.RemoveTrailingSlash())
 	e.GET("/records", GetVideos)
-	e.GET("/records/:name", GetVideo)
+	e.Static("/record", filePath)
 	e.Logger.Fatal(e.Start(":1323"))
 }
