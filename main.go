@@ -5,7 +5,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"io/ioutil"
 	"net/http"
-	"path"
 	"strings"
 )
 
@@ -20,7 +19,7 @@ func GetVideos(c echo.Context) error {
 	videoList := make([]string, 0)
 	for _, video := range videos {
 		if !strings.HasSuffix(video.Name(), ".tmp") {
-			videoList = append(videoList, path.Join(filePath, video.Name()))
+			videoList = append(videoList,  video.Name())
 		}
 	}
 	return c.JSON(http.StatusOK, echo.Map{
